@@ -1,0 +1,56 @@
+---
+title: "Script for installing R packages for Stat4Astro School, Autrans"
+author: "Julyan Arbel"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: true
+---
+
+
+# Purpose
+This script is to provide the participants of the [School of Statistics for Astrophysics 2017: Bayesian Methodology](https://stat4astro2017.sciencesconf.org/) with the necessary R packages.
+
+
+# Prerequisistes
+
+Have [R](http://cran.r-project.org/) installed, as well as [RStudio](https://www.rstudio.com/), Desktop version.
+
+# Access to Slides
+
+The folder contains the slides for the following presentations:
+
+  * David van Dyk
+  * Roberto Trotta
+  * Christian Robert (TBA)
+  * Julyan Arbel (TBA)
+
+# Installing R packages
+
+In order to install the required R packages, you can either:
+
+- run the following lines in RStudio: copy-paste them to RStudio console (bottom-left panel)
+
+- or open this entire document in RStudio and run it (alt-cmd-R on a Mac).
+
+```{r}
+# General R packages (visualization)
+install.packages("ggplot2", "rgl","rglwidget", "gridExtra", "hexbin", "viridis")
+
+# MCMC & Model Building
+install.packages(c("mvtnorm","coda"))
+
+# Approximate Bayesian Computation (Christian Robert)
+install.packages(c("abcrf","abc"))
+
+# Bayesian Nonparametrics (Julyan Arbel)
+install.packages(c("DPpackage","BNPdensity","mcclust"))
+# the package mcclust.ext is not on CRAN and requires the specific install from tar.gz file as described below
+download.file(url = "http://wrap.warwick.ac.uk/71934/1/mcclust.ext_1.0.tar.gz", 
+              destfile = "mcclust.ext_1.0.tar.gz")
+install.packages("mcclust.ext_1.0.tar.gz", repos = NULL, type = "source")
+file.remove("mcclust.ext_1.0.tar.gz")
+```
+
