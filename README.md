@@ -4,5 +4,5 @@ This repository contains slides as well as code (to be added during the week) fo
 
   * David van Dyk
   * Roberto Trotta
-  * Christian Robert (TBA)
-  * Julyan Arbel (TBA)
+  * Christian Robert
+  * Julyan Arbel
