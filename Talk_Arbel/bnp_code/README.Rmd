@@ -27,7 +27,7 @@ Also, have packages installed as described here:
 ## Charging packages
 
 ```{r}
-needed_packages = c("ggplot2", "hexbin", "viridis", "gridExtra", "rgl", "readr", "DPpackage", "BNPdensity", "mcclust.ext", "abind", "mvtnorm")
+needed_packages = c("ggplot2", "hexbin", "viridis", "gridExtra", "rgl", "readr", "DPpackage", "BNPdensity", "abind", "mvtnorm", "ggpubr") # , add "ggpubr" and run again
 
 # nice trick in order to install only missing packages
 new.packages <- needed_packages[!(needed_packages %in% installed.packages()[,"Package"])]
@@ -35,6 +35,12 @@ if(length(new.packages)) install.packages(new.packages)
 
 # and then to load them all
 lapply(needed_packages, require, character.only = TRUE)
+
+download.file(url = "http://wrap.warwick.ac.uk/71934/1/mcclust.ext_1.0.tar.gz", 
+              destfile = "mcclust.ext_1.0.tar.gz")
+install.packages("mcclust.ext_1.0.tar.gz", repos = NULL, type = "source")
+file.remove("mcclust.ext_1.0.tar.gz")
+load("mcclust.ext")
 ```
 
 ## Importing data
@@ -396,7 +402,8 @@ load(file = "data/MCMC_output_saved.Rdata")
 
 str(MCMC_output_saved)
 MCMC_clustering = MCMC_output_saved[[2]]
-
+View(MCMC_clustering)
+str(MCMC_clustering)
 # dens <- array(colSums(est1_data[[1]])/5000, dim = c(40,40,40))
 ```
 
@@ -410,9 +417,16 @@ str(MCMC_clustering)
 MCMC_number_cluster = apply(X = MCMC_clustering, MARGIN = 1, FUN = max)
 head(MCMC_number_cluster)
 plot(MCMC_number_cluster, type = 'l')
+MCMC_table = table(MCMC_number_cluster)
 hist_number_cluster = hist(MCMC_number_cluster)
 str(hist_number_cluster)
-which.max(hist_number_cluster$counts) # MAP estimator for K
+which.max(MCMC_table) # MAP estimator for K
+# mean(MCMC_table)
+# str(MCMC_table)
+MCMC_alpha = MCMC_output_saved[[3]]
+hist(MCMC_alpha)
+mean(MCMC_alpha)
+plot(MCMC_alpha, type ='l')
 ```
 
 ### A closer look at the clustering via adequate loss function
@@ -420,7 +434,7 @@ which.max(hist_number_cluster$counts) # MAP estimator for K
 ```{r}
 posterior_similarity_matrix = comp.psm(MCMC_clustering)
 str(posterior_similarity_matrix)
-
+View(posterior_similarity_matrix)
 galaxy_variation_information=minVI(posterior_similarity_matrix)
 summary(galaxy_variation_information)
 str(galaxy_variation_information)
